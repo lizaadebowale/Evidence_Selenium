@@ -1,0 +1,41 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+//using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support;
+using OpenQA.Selenium.Support.UI;
+
+namespace Evidence_Selenium
+{
+    [TestClass]
+    public class Evidence_Homepage
+    {
+        IWebDriver driver;
+
+
+        [TestInitialize]
+        public void Setup()
+        {
+            //stert browser and openurl
+            driver = 
+            driver = new InternetExplorerDriver();
+            driver.Navigate().GoToUrl("http://test.evidence.nhs.uk");
+
+        }
+
+        [TestMethod]
+        public void TestTextIsThere()
+        {
+            var text = driver.FindElement(By.ClassName("strap")).Text;
+            Assert.AreEqual(text, "Search our unique index of authoritative, evidence-based information from hundreds of trustworthy and accredited sources.");
+        }
+
+        [TestCleanup]
+        public void CleanTest()
+        {
+            //close browser
+            driver.Quit();
+        }
+    }
+}

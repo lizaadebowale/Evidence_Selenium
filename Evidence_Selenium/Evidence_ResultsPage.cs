@@ -1,22 +1,26 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+//using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support;
+using OpenQA.Selenium.Support.UI;
 
 namespace Evidence_Selenium
 {
     [TestClass]
-    public class MyTest
+    public class Evidence_ResultsPage
     {
         IWebDriver driver;
+        
 
         [TestInitialize]
         public void Setup()
         {
             //start browser and open url
-            driver = new ChromeDriver(@"C:\webdrivers");
-            driver.Navigate().GoToUrl("http://alpha.evidence.nhs.uk/Search?q=asperger%27s+syndrome");
+            //driver = new ChromeDriver(@"C:\webdrivers");
+            driver = new InternetExplorerDriver();
+            driver.Navigate().GoToUrl("http://test.evidence.nhs.uk/Search?q=asperger%27s+syndrome");
 
         }
 
@@ -24,7 +28,7 @@ namespace Evidence_Selenium
         public void VerifyTitle()
         {
             string title = driver.Title;
-            Assert.AreEqual(title, "Evidence Search - Search Engine for Evidence in Health and Social Care");
+            Assert.AreEqual(title, "asperger's syndrome - Search Results - Evidence Search - Search Engine for Evidence in Health and Social Care");
         }
 
         [TestMethod]
@@ -37,25 +41,19 @@ namespace Evidence_Selenium
         public void TestURLEncoding_NumberofResultsChanged()
         {
             driver.FindElement(By.Name("ps")).SendKeys("50" + Keys.Enter);
-            var searchBox = driver.FindElement(By.Name("q"));
-            Assert.AreEqual(searchBox, "asperger's syndrome");
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(100));
+            Assert.AreEqual("asperger's syndrome", driver.FindElement(By.Name("q")).GetAttribute("value"));
         }   
-
-        [TestMethod]
-        public void TestTextIsThere()
-        {
-            var text = driver.FindElement(By.ClassName("strap")).Text;
-            Assert.AreEqual(text, "Search our unique index of authoritative, evidence-based information from hundreds of trustworthy and accredited sources.");
-        }
 
         [TestMethod]
 
         public void TestTextTitle()
         {
-            var text = driver.FindElement(By.ClassName("clearfix")).Text;
-            Assert.AreEqual(text, "Evidence search");
+            var text = driver.FindElements(By.XPath("//*[@id=\"searchfilters\"]/ul/li[1]/a"));
+            Assert.AreEqual(text[0].Text, "Accredited");
         }
 
+       
         [TestCleanup]
         public void CleanTest()
         {
