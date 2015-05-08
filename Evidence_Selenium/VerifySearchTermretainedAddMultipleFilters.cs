@@ -49,12 +49,12 @@ namespace Evidence_Selenium
             driver.FindElement(By.Name("q")).SendKeys("paracetamol");
             driver.FindElement(By.CssSelector("button[type=\"submit\"]")).Click();
             driver.FindElement(By.LinkText("Areas of interest")).Click();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.FindElement(By.LinkText("Clinical")).Click();
             driver.FindElement(By.LinkText("Sources")).Click();
             driver.FindElement(By.LinkText("Alzheimer's Society")).Click();
             new SelectElement(driver.FindElement(By.Name("ps"))).SelectByText("100 per page");
-            driver.FindElement(By.CssSelector("button.btn-primary")).Click();
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("paracetamol", driver.FindElement(By.Name("q")).GetAttribute("value"));
+            Assert.AreEqual("paracetamol", driver.FindElement(By.Name("q")).GetAttribute("value"));
         }
         private bool IsElementPresent(By by)
         {

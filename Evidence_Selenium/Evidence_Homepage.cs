@@ -29,7 +29,7 @@ namespace Evidence_Selenium
         public void Homepage_TestTextIsThere()
         {
             var text = driver.FindElement(By.ClassName("strap")).Text;
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(text, "Search our unique index of authoritative, evidence-based information from hundreds of trustworthy and accredited sources.");
+            Assert.AreEqual(text, "Search our unique index of authoritative, evidence-based information from hundreds of trustworthy and accredited sources.");
         }
 
         [TearDown]
